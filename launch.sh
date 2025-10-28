@@ -5,7 +5,7 @@ set -e
 FDEVC="${FDEVC:-${HOME}/.fdevc/fdevc.sh}"
 CONTAINER_NAME="enclave-template"
 IMAGE=""
-PORTS=""
+PORTS="3000 8545"
 STARTUP_CMD="./runnable.sh"
 PERSIST="false"
 DOCKER_SOCKET="true"
