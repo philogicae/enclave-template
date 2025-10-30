@@ -52,7 +52,7 @@ done
 CONTAINER_ARG=""
 if [ -n "$CONTAINER_NAME" ]; then
 	ACTUAL_NAME="$CONTAINER_NAME"
-	[ "$CONTAINER_NAME" = "test_runnable_template" ] && ACTUAL_NAME="$(basename "$PWD")"
+	[ "$CONTAINER_NAME" = "enclave-template" ] && ACTUAL_NAME="$(basename "$PWD")"
 	# Check if container exists
 	DOCKER_CHECK="${DOCKER_CMD:-${FDEVC_DOCKER:-docker}}"
 	read -ra DOCKER_PARTS <<<"$DOCKER_CHECK"
