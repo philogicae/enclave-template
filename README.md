@@ -19,6 +19,8 @@ curl -fsSL https://raw.githubusercontent.com/philogicae/enclave-template/main/in
 
 > If not already present, it will automatically install [fdevc](https://github.com/philogicae/fast_dev_container)
 
+![Enclave E3](./banner.png)
+
 ## Structure
 
 ```
