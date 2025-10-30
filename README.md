@@ -26,13 +26,13 @@ enclave-template/
 ├── README.md
 ├── install_and_run        # Installation script (curl one-liner)
 ├── launch.sh              # Container launcher with predefined settings
-└── fdevc_setup/
+└── fdevc_setup/           # Folder mounted at /workspace/fdevc_setup in the container
     └── runnable.sh        # Main script that runs inside the container
 ```
 
 - **`install_and_run`** - Installation script that ensures `fdevc` is available, clones this repository, and runs `launch.sh`.
 - **`launch.sh`** - Helper script to launch a container using `fdevc` with predefined settings. Edit the configuration variables at the top to customize ports, image, persistence, etc.
-- **`fdevc_setup/runnable.sh`** - The main script that runs inside the container (complete Enclave setup). The `fdevc_setup` folder is mounted to `/workspace` in the container.
+- **`fdevc_setup/runnable.sh`** - The main script that runs inside the container (complete Enclave setup).
 
 ## Usage
 
