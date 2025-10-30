@@ -38,7 +38,7 @@ enclave-template/
 
 ## Usage
 
-> Required: You runned quick install script or ./launch.sh directly
+> Required: enclave-template is running (quick install script or ran ./launch.sh directly)
 
 Add Anvil (Hardhat Local Network) to your browser wallet extension (e.g. [MetaMask](https://metamask.io/), [Rabby](https://rabby.io/), etc):
 
