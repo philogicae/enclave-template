@@ -175,17 +175,17 @@ install_enclave() {
 }
 
 initialize_project() {
-	if [ -f "template/package.json" ]; then
+	if [ -f "project/package.json" ]; then
 		log_success "Enclave template project already initialized"
 		return 0
 	fi
 
 	log_step "Initializing Enclave template project..."
 	if retry $RETRY_COUNT enclave init tmp; then
-		log_step "Copying files to template directory..."
-		rsync -a --ignore-existing tmp/ template/
+		log_step "Copying files to project directory..."
+		rsync -a --ignore-existing tmp/ project/
 		rm -rf tmp
-		chmod -R 777 template
+		chmod -R 777 project
 		log_success "Enclave template project initialized"
 	else
 		log_error "Failed to initialize Enclave template project"
@@ -194,8 +194,8 @@ initialize_project() {
 }
 
 compile_and_start() {
-	log_step "Changing to template directory..."
-	cd template
+	log_step "Changing to project directory..."
+	cd project
 
 	log_step "Compiling Enclave program..."
 	if retry $RETRY_COUNT enclave program compile; then
