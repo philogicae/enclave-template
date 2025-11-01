@@ -56,7 +56,7 @@ retry() {
 	until "$@"; do
 		exit_code=$?
 		count=$((count + 1))
-		if [ $count -lt $attempts ]; then
+		if [ $count -lt "$attempts" ]; then
 			log_warning "Command failed (attempt $count/$attempts). Retrying in ${RETRY_DELAY}s..."
 			sleep $RETRY_DELAY
 		else
@@ -72,10 +72,10 @@ setup_path() {
 		log_detail "Adding $LOCAL_BIN to PATH in ~/.bashrc"
 		echo "export PATH=\"$LOCAL_BIN:\$PATH\"" >>~/.bashrc
 	fi
-	
+
 	# Export PATH for current session
 	export PATH="$LOCAL_BIN:$PATH"
-	
+
 	# Add RISC0_BIN to PATH if exists
 	if [ -d "$RISC0_BIN" ]; then
 		export PATH="$RISC0_BIN:$PATH"
@@ -87,14 +87,14 @@ install_rzup() {
 		log_success "rzup already installed"
 		return 0
 	fi
-	
+
 	log_step "Installing rzup..."
 	if retry $RETRY_COUNT curl -fsSL "$RISC0_INSTALL_URL" | bash; then
 		# Re-export PATH after installation
 		if [ -d "$RISC0_BIN" ]; then
 			export PATH="$RISC0_BIN:$PATH"
 		fi
-		
+
 		if command_exists rzup; then
 			log_success "rzup installed successfully"
 		else
@@ -112,7 +112,7 @@ install_risczero_toolchain() {
 		log_success "RISC Zero toolchain already installed"
 		return 0
 	fi
-	
+
 	log_step "Installing RISC Zero toolchain..."
 	if retry $RETRY_COUNT rzup install cargo-risczero; then
 		log_success "RISC Zero toolchain installed successfully"
@@ -127,13 +127,13 @@ install_enclave() {
 		log_success "Enclave CLI already installed"
 		return 0
 	fi
-	
+
 	# Install enclaveup if not present
 	if ! command_exists enclaveup; then
 		log_step "Installing enclaveup..."
 		if retry $RETRY_COUNT curl -fsSL "$ENCLAVE_INSTALL_URL" | bash; then
 			export PATH="$LOCAL_BIN:$PATH"
-			
+
 			# Try alternative paths if needed
 			if ! command_exists enclaveup; then
 				log_detail "Searching for enclaveup in alternative paths..."
@@ -145,7 +145,7 @@ install_enclave() {
 					fi
 				done
 			fi
-			
+
 			if command_exists enclaveup; then
 				log_success "enclaveup installed successfully"
 			else
@@ -157,7 +157,7 @@ install_enclave() {
 			exit 1
 		fi
 	fi
-	
+
 	# Install Enclave CLI
 	log_step "Installing Enclave CLI..."
 	if retry $RETRY_COUNT enclaveup install; then
@@ -175,13 +175,17 @@ install_enclave() {
 }
 
 initialize_project() {
-	if [ -d "template" ]; then
+	if [ -f "template/package.json" ]; then
 		log_success "Enclave template project already initialized"
 		return 0
 	fi
-	
+
 	log_step "Initializing Enclave template project..."
-	if retry $RETRY_COUNT enclave init template -v; then
+	if retry $RETRY_COUNT enclave init tmp; then
+		log_step "Copying files to template directory..."
+		rsync -a --ignore-existing tmp/ template/
+		rm -rf tmp
+		chmod -R 777 template
 		log_success "Enclave template project initialized"
 	else
 		log_error "Failed to initialize Enclave template project"
@@ -202,7 +206,7 @@ compile_and_start() {
 	fi
 
 	log_step "Ensuring pnpm dependencies are installed..."
-	pnpm install
+	CI=true pnpm install --frozen-lockfile -s
 
 	log_step "Starting development environment..."
 	pnpm dev:all
@@ -211,22 +215,19 @@ compile_and_start() {
 # Main execution
 main() {
 	log_step "Setting up Enclave development environment..."
-	
+
 	# Setup PATH
 	setup_path
-	
+
 	# Install dependencies
 	install_rzup
 	install_risczero_toolchain
 	install_enclave
-	
+
 	# Initialize and start project
 	initialize_project
 	compile_and_start
 }
-
-# Trap cleanup for graceful exit
-trap 'log_error "Script interrupted"; exit 130' INT TERM
 
 # Run main function
 main "$@"
