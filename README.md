@@ -39,17 +39,17 @@ curl -fsSL https://raw.githubusercontent.com/philogicae/enclave-template/main/in
 
 > Required: enclave-template is running (quick install script or ran ./launch.sh directly)
 
-Add Anvil (Hardhat Local Network) to your browser wallet extension (e.g. [MetaMask](https://metamask.io/), [Rabby](https://rabby.io/), etc):
+1. Add Anvil (Hardhat Local Network) to your browser wallet extension (e.g. [MetaMask](https://metamask.io/), [Rabby](https://rabby.io/), etc):
 
 ```bash
 Network Name: Anvil (or Localhost)
 RPC URL: http://127.0.0.1:8545 (or any other forwarded port you configured)
 Chain ID: 31337
-Currency Symbol: ETH 
-Block Explorer URL: (Optional) Leave blank 
+Currency Symbol: ETH
+Block Explorer URL: (Optional) Leave blank
 ```
 
-For testing, add any Hardhat pre-funded account to your browser wallet extension:
+2. For testing, add any Hardhat pre-funded account to your browser wallet extension:
 
 ```bash
 Account #0: 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266 (10000 ETH)
@@ -62,4 +62,6 @@ Account #2: 0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc (10000 ETH)
 Private Key: 0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a
 ```
 
-Try out Enclave template at [http://localhost:3000](http://localhost:3000) (or any other forwarded port you configured)
+3. Try out Enclave template at [http://localhost:3000](http://localhost:3000) (or any other forwarded port you configured)
+
+4. Open `enclave-template` in your IDE and start coding!
