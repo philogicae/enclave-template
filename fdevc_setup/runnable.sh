@@ -193,22 +193,25 @@ initialize_project() {
 	fi
 }
 
-compile_and_start() {
-	log_step "Changing to project directory..."
-	cd project
-
+prepare_project() {
 	log_step "Compiling Enclave program..."
+	cd project
 	if retry $RETRY_COUNT enclave program compile; then
 		log_success "Enclave program compiled successfully"
 	else
 		log_error "Failed to compile Enclave program"
 		exit 1
 	fi
-
 	log_step "Ensuring pnpm dependencies are installed..."
 	CI=true pnpm install --frozen-lockfile -s
+	log_step "Ensuring permissions are set correctly..."
+	chmod -R 777 .
+	cd ..
+}
 
+start_project() {
 	log_step "Starting development environment..."
+	cd project
 	pnpm dev:all
 }
 
@@ -226,7 +229,8 @@ main() {
 
 	# Initialize and start project
 	initialize_project
-	compile_and_start
+	prepare_project
+	start_project
 }
 
 # Run main function
