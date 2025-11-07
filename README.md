@@ -1,6 +1,6 @@
 # enclave-template
 
-One-liner to auto-install & run (& dev) a `fdevc runnable project` for [Enclave](https://github.com/gnosisguild/enclave) powered by [fdevc](https://github.com/philogicae/fast_dev_container)
+One-liner to auto-install & run (& dev) a `fdevc runnable project` for [Enclave template](https://github.com/gnosisguild/enclave/tree/main/templates/default) powered by [fdevc](https://github.com/philogicae/fast_dev_container)
 
 [![Curl](https://img.shields.io/badge/curl-required-orange)](https://curl.se/)
 [![Git](https://img.shields.io/badge/git-required-orange)](https://git-scm.com/)
