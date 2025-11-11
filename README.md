@@ -11,6 +11,8 @@ One-liner to auto-install & run (& dev) a `fdevc runnable project` for [Enclave 
 
 > Docs: [Enclave Hello World](https://docs.enclave.gg/hello-world-tutorial)
 
+> Other template: [enclave-crisp-template](https://github.com/philogicae/enclave-crisp-template)
+
 ## Quick Install
 
 ```bash
